@@ -1,2 +1,2 @@
 # KicksBoard
-A simplistic solution for organizing and keeping track of reselling sneakers 
+A simplistic organization solution for sneaker resellers
