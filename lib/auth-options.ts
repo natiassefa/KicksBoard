@@ -1,6 +1,24 @@
 import { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import CredentialProvider from "next-auth/providers/credentials";
+import { FirebaseAdapter } from "@next-auth/firebase-adapter"
+
+import firebase from "firebase/app"
+import "firebase/firestore"
+const firebaseConfig = {
+  apiKey: "AIzaSyCv_hulymk-8EKT2ECyvY_R9-GaMm--ABU",
+  authDomain: "kicksboard-foeda.firebaseapp.com",
+  projectId:"kicksboard-f0eda",
+  storageBucket: "kicksboard-f0eda.appspot.com",
+  messagingSenderId:"419321903768",
+  appId:"1:419321903768:web:bcda1166b3d88884216eed",
+  measurementId:"G-MFZB54YKRL"
+}
+
+const firestore = (
+  firebase.apps[0] ?? firebase.initializeApp(firebaseConfig)
+).firestore()
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -29,7 +47,12 @@ export const authOptions: NextAuthOptions = {
         }
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID ?? "",
+      clientSecret: process.env.GOOGLE_SECRET ?? "",
+    }),
   ],
+  // adapter: FirebaseAdapter(firestore),
   pages: {
     signIn: "/", //sigin page
   },
