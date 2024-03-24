@@ -2,23 +2,10 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import CredentialProvider from "next-auth/providers/credentials";
-import { FirebaseAdapter } from "@next-auth/firebase-adapter"
-
-import firebase from "firebase/app"
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/app/firestore";
 import "firebase/firestore"
-const firebaseConfig = {
-  apiKey: "AIzaSyCv_hulymk-8EKT2ECyvY_R9-GaMm--ABU",
-  authDomain: "kicksboard-foeda.firebaseapp.com",
-  projectId:"kicksboard-f0eda",
-  storageBucket: "kicksboard-f0eda.appspot.com",
-  messagingSenderId:"419321903768",
-  appId:"1:419321903768:web:bcda1166b3d88884216eed",
-  measurementId:"G-MFZB54YKRL"
-}
 
-const firestore = (
-  firebase.apps[0] ?? firebase.initializeApp(firebaseConfig)
-).firestore()
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -27,24 +14,28 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GITHUB_SECRET ?? "",
     }),
     CredentialProvider({
+      name: "credentials",
       credentials: {
         email: {
           label: "email",
           type: "email",
           placeholder: "example@gmail.com",
         },
+        password: {
+          label: "password",  
+          type: "password",
+          placeholder: "",
+        },
       },
-      async authorize(credentials, req) {
-        const user = { id: "1", name: "John", email: credentials?.email };
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user;
-        } else {
-          // If you return null then an error will be displayed advising the user to check their details.
-          return null;
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
-        }
+      async authorize(credentials): Promise<any> {
+        return await signInWithEmailAndPassword(auth, (credentials as any).email || "",(credentials as any).password || "")
+          .then((userCredential) => {
+            if (userCredential.user) {
+              return userCredential.user;
+            }
+            return null;
+          })
+          .catch(error => {console.log(error)} )
       },
     }),
     GoogleProvider({
@@ -52,7 +43,6 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_SECRET ?? "",
     }),
   ],
-  // adapter: FirebaseAdapter(firestore),
   pages: {
     signIn: "/", //sigin page
   },
