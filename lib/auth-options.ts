@@ -31,7 +31,12 @@ export const authOptions: NextAuthOptions = {
         return await signInWithEmailAndPassword(auth, (credentials as any).email || "",(credentials as any).password || "")
           .then((userCredential) => {
             if (userCredential.user) {
-              return userCredential.user;
+              const user = {
+                id: userCredential.user.uid,
+                name: userCredential.user.displayName,
+                email: userCredential.user.email,
+              }
+              return user;
             }
             return null;
           })
