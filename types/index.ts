@@ -11,6 +11,15 @@ export interface NavItem {
   description?: string;
 }
 
+export type Shoe = {
+  id: number,
+  name: string
+  price: number
+  image: string
+  inStock: boolean
+  stock: number
+}
+
 export interface NavItemWithChildren extends NavItem {
   items: NavItemWithChildren[];
 }

@@ -12,8 +12,11 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import getShoes from "@/lib/database/functions/get-shoes"
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
 
-export default function page() {
+export  default async function page() {
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
