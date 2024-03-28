@@ -1,16 +1,16 @@
 
-import { auth, db } from "@/app/firestore";
+"use server";
+import { db } from "@/app/firestore";
 import { authOptions } from "@/lib/auth-options";
-import { de } from "date-fns/locale";
-import { collection, doc, setDoc, getDoc, addDoc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
 import { v4 } from "uuid";
 import { Shoe } from "@/types";
 
 async function addShoe(shoe: Shoe) {
     const session = await getServerSession(authOptions)
     let uid: string = ""
+    console.log("Session: ", session)
     if (session?.user?.uid) {
         uid = session.user.uid
     } else {
@@ -25,6 +25,7 @@ async function addShoe(shoe: Shoe) {
         image: shoe.image,
         inStock: shoe.inStock,
         stock: shoe.stock,
+        sku: shoe.sku,
     })
     .then(() => {
         console.log("Document successfully written!");

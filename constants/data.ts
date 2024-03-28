@@ -9,6 +9,22 @@ export type User = {
   verified: boolean;
   status: string;
 };
+export type Label = {
+  label: string;
+  value: string;
+};
+export const shoeLabels: Label[] = [
+  { label: "Nike Air Max 90 - Triple White ", value: "537384-111" },
+  { label: "Nike Air Max 90 - Triple Black", value: "537384-090" },
+  { label: "Nike Air Max 90 - White", value: "537384-110" },
+  { label: "Nike Air Max 90 - Black", value: "537384-091" },
+  { label: "Nike Air Max 90 - Red", value: "537384-101" },
+  { label: "Nike Air Max 90 - Blue", value: "537384-080" },
+  { label: "Nike Air Max 90 - Green", value: "537384-121" },
+  { label: "Nike Air Max 90 - Yellow", value: "537384-095" },
+  { label: "Nike Air Max 90 - Pink", value: "537384-141" },
+  { label: "Nike Air Max 90 - Purple", value: "537384-099" },
+] 
 export const users: User[] = [
   {
     id: 1,

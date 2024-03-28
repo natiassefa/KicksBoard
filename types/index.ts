@@ -12,12 +12,13 @@ export interface NavItem {
 }
 
 export type Shoe = {
-  id: number,
+  id: string,
   name: string
   price: number
   image: string
   inStock: boolean
   stock: number
+  sku: string
 }
 
 export interface NavItemWithChildren extends NavItem {

@@ -1,5 +1,5 @@
 "use client";
-import { Shoe } from "@/components/inventory/shoe-carousel";
+import { Shoe } from "@/types";
 import { AlertModal } from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
 import {

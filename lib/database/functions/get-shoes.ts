@@ -1,12 +1,9 @@
 
-import { auth, db } from "@/app/firestore";
+import { db } from "@/app/firestore";
 import { authOptions } from "@/lib/auth-options";
 import { Shoe } from "@/types";
-import { de } from "date-fns/locale";
-import { collection, doc, setDoc, getDoc, addDoc, query, getDocs } from "firebase/firestore";
+import { collection, query, getDocs } from "firebase/firestore";
 import { getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
-import { v4 } from "uuid";
 
 async function getShoes() {
     let shoes: Shoe[] = []

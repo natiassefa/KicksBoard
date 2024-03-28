@@ -1,5 +1,5 @@
 import BreadCrumb from "@/components/breadcrumb";
-import { ProductForm } from "@/components/forms/product-form";
+import { ShoeForm } from "@/components/forms/shoe-form";
 import React from "react";
 
 export default function Page() {
@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <div className="flex-1 space-y-4 p-8">
       <BreadCrumb items={breadcrumbItems} />
-      <ProductForm
+      <ShoeForm
         categories={[
           { _id: "shirts", name: "shirts" },
           { _id: "pants", name: "pants" },
@@ -18,6 +18,7 @@ export default function Page() {
         initialData={null}
         key={null}
       />
+
     </div>
   );
 }
