@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import { Shoe } from "./shoe-carousel";
+import { Shoe } from "@/types";
 import { cn } from "@/lib/utils";
 
 export async function ShoeCard(...props: any) {

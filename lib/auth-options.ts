@@ -1,4 +1,4 @@
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import CredentialProvider from "next-auth/providers/credentials";
@@ -27,20 +27,24 @@ export const authOptions: NextAuthOptions = {
           placeholder: "",
         },
       },
-      async authorize(credentials): Promise<any> {
-        return await signInWithEmailAndPassword(auth, (credentials as any).email || "",(credentials as any).password || "")
+      async authorize(credentials): Promise<User | null> {
+        return await signInWithEmailAndPassword(auth, (credentials as any).email || "", (credentials as any).password || "")
           .then((userCredential) => {
             if (userCredential.user) {
-              const user = {
+              const user: User = {
                 id: userCredential.user.uid,
-                name: userCredential.user.displayName,
-                email: userCredential.user.email,
-              }
+                uid: userCredential.user.uid,
+                email: userCredential.user.email!,
+                name: userCredential.user.displayName!,
+              };
               return user;
             }
             return null;
           })
-          .catch(error => {console.log(error)} )
+          .catch(error => {
+            console.log(error);
+            return null;
+          });
       },
     }),
     GoogleProvider({
@@ -51,4 +55,16 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/", //sigin page
   },
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      user && (token.user = user);
+      return token;
+    },
+    session: async ({ session, token }) => {
+      if (session.user) {
+        session.user.uid = token.sub!;
+      }
+      return session;
+    }
+  }
 };

@@ -10,13 +10,16 @@ import {
 } from "@/components/ui/carousel"
 import { ShoeCard } from "./shoe-card"
 import { cn } from "@/lib/utils"
-
-export function ShoeCarousel() {
+import getShoes from "@/lib/database/functions/get-shoes"
+import { Shoe } from "@/types"
+export async function ShoeCarousel() {
+  // call getShoes function to get shoes from firestore database
+  const shoes = await getShoes()
   return (
     <div className="flex items-center justify-center">        
     <Carousel className="w-full max-w-xs">
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
+        {Array.from({ length: shoes.length }).map((_, index) => (
           <CarouselItem key={index}>
             <div className="p-1">
               <ShoeCard {...shoes[index]} />
@@ -31,55 +34,3 @@ export function ShoeCarousel() {
   )
 }
 
-export type Shoe = {
-  id: number,
-  name: string
-  price: number
-  image: string
-  inStock: boolean
-  stock: number
-}
-
-// Use supabase to fetch data from the database and display it in the carousel
-const shoes: Shoe[] = [
-  {
-    id: 0,
-    name: "Nike Air Max 9",
-    price: 120,
-    image: "https://reactnative.dev/img/tiny_logo.png",
-    inStock: false,
-    stock: 10,
-  },
-  {
-    id: 1,
-    name: "Nike Air Max 180",
-    price: 160,
-    image: "https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-02.jpg",
-    inStock: false,
-    stock: 10,
-  },
-  {
-    id: 2,
-    name: "Nike Air Max 270",
-    price: 180,
-    image: "https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-03.jpg",
-    inStock: false,
-    stock: 10,
-  },
-  {
-    id: 3,
-    name: "Nike Air Max 720",
-    price: 200,
-    image: "https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-04.jpg",
-    inStock: true,
-    stock: 10,
-  },
-  {
-    id: 4,
-    name: "Nike Air Max 720",
-    price: 200,
-    image: "https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-04.jpg",
-    inStock: false,
-    stock: 0,
-  },
-]
